@@ -1,0 +1,56 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div>
+    <form method="post", action="", enctype="multipart/form-data" id="cer-form">
+        {% csrf_token %}
+        <div>
+            <label for="name">奖项名称</label>
+            <input required type="text" name="name">
+        </div>
+        <div>
+            <label for="host">获奖学生</label>
+            <input required type="text" name="host" list="stu-list">
+            <datalist id="stu-list">
+                <select id="host">
+                    {% for student in students %}
+                    <option value="{{student.name}}">{{student.name}}</option>
+                    {% endfor %}
+                </select>
+            </datalist>
+        </div>
+        <div>
+            <label for="pic">图片</label>
+            <input type="file" name="pic" id="pic">
+        </div>
+        <button type="submit">提交</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById("cer-form")
+    .addEventListener("submit", function(event){
+
+        event.preventDefault();
+
+        var formData = new FormData(this);
+
+        fetch("{% url  'mid_cer' %}", {
+            method: "POST",
+            body: formData
+
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success){
+                alert('提交成功');
+            }else{
+                alert('提交失败');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+
+</script>
+
+{% endblock %}

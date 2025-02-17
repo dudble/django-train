@@ -1,0 +1,39 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+</style>
+
+<div class="page-container">
+    <div>
+        <a href="{% url 'export_dom' %}">下载宿舍列表</a>
+    </div>
+    <div>
+        <h6>当前共有{{count}}间宿舍</h6>
+        <form method="get" action="{% url 'dom_list' %}">
+            <input type="text" name="stu_q" placeholder="查找学生" />
+        </form>
+        <table>
+            <tr>
+                <th>宿舍号</th><th>学生</th><th>学生数量</th>
+            {% for dom, stus in dom_stus.items %}
+            <tr>
+                <th>{{dom.name}}</th>
+                <th>
+                    {% for stu in stus %}
+                    <span>{{stu.name}}</span>
+                    {% endfor %}
+                </th>
+                <th>{{stus|length}}</th>
+                
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{% endblock %}

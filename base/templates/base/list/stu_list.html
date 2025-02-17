@@ -1,0 +1,42 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+</style>
+
+<div class="page-container">
+    <div>
+        <a href="{% url 'export_data' 'student' %}">点此生成全体学生的excel文件</a>
+    </div>
+    <div>
+        <h6>当前共有{{count}}位学生</h6>
+        <form method="get" action="{% url 'stu_list' %}">
+            <input type="text" name="stu_q" placeholder="查找学生" />
+        </form>
+        <table>
+            <tr>
+                <th>姓名</th><th>年级</th><th>专业</th><th>班级</th><th>宿舍</th><th>民族</th><th>省</th><th>市</th><th>县</th>
+            </tr>
+            {% for stu in stus %}
+            <tr>
+                <th><a href="{% url 'update_stu' stu.id%}">{{stu.name}}</a></th>
+                <th>{{stu.grade}}</th>
+                <th>{{stu.major}}</th>
+                <th>{{stu.cla}}</th>
+                <th>{{stu.room.name}}</th>
+                <th>{{stu.ethnic}}</th>
+                <th>{{stu.province}}</th>
+                <th>{{stu.city}}</th>
+                <th>{{stu.county}}</th>
+                <th><a href="{% url 'delete_stu' stu.id %}">点此删除</a></th>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{% endblock %}

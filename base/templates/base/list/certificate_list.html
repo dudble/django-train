@@ -1,0 +1,34 @@
+{% extends 'main.html' %}
+{% block content %}
+
+{% load static %}
+
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+</style>
+
+<div class="page-container">
+
+    <div>
+        <h6>当前共有{{count}}个奖项</h6>
+        <form method="get" action="{% url 'cer_list' %}">
+            <input type="text" name="cer_q" placeholder="查找学生或奖项" />
+        </form>
+        <table>
+            <tr>
+                <th>奖项名</th><th>学生</th><th>图片</th>
+            {% for cer in cers %}
+            <tr>
+                <th>{{cer.name}}</th>
+                <th>{{cer.host.name}}</th>
+                <th><img src="{{cer.pic.url}}"></th>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{% endblock %}

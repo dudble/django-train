@@ -1,0 +1,82 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+</style>
+
+<div class="page-container">
+    <div>
+        <a href="{% url 'export_data' 'leave' %}">点此生成全部的excel文件</a>
+    </div>
+    <div>
+        <form method="get" action="{% url 'update_approve' %}">
+            <input type="text" name="leave_q" placeholder="查找学生" />
+        </form>
+        <form method="POST" action="{% url 'update_approve' %}" id="leave-form">
+            {% csrf_token %}
+            <div>
+                <table>
+                    <tr>
+                        <th>姓名</th><th>是由</th><th>离校时间</th><th>返校时间</th><th>是否批假</th><th>是否销假</th><th>是否逾期</th>
+                    </tr>
+                    {% for leave in leaves %}
+                    <tr>
+                        <th>{{leave.host.name}}</th>
+                        <th>{{leave.name}}</th>
+                        <th>{{leave.begin_date}}</th>
+                        <th>{{leave.end_date}}</th>
+                    
+                        <th>
+                            <input type="checkbox" name="promise_{{leave.id}}" {% if leave.promise %}checked{% endif %}>
+                        </th>
+                        <th>
+                            <input type="checkbox" name="cancel_{{leave.id}}" {% if leave.cancel %}checked{% endif %}>
+                        </th>
+                        
+                        <th>
+                            {% if leave.overdue %}
+                            YES
+                            {% endif %}
+                        </th>
+
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div>
+                <button type="submit" >提交</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    //FormData 是一个 JavaScript 原生对象，它用来表示一个表单的所有数据，并允许将数据以 key-value 的格式传输
+    document.getElementById("leave-form").addEventListener("submit",function(event){
+
+        event.preventDefault();
+        
+        var formData = new FormData(this);
+
+        fetch("{% url 'update_approve' %}", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success){
+                alert('提交成功');
+                location.reload();
+            }else{
+                alert('提交失败，请重试');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+</script>
+
+{% endblock %}

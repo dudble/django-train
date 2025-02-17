@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<a href="/">
+    <h3>信息管理系统</h3>
+</a>
+<form method="get" action="{% url 'home' %}">
+    <input type="text" name="q" placeholder="查询新闻及通知" />
+</form>
+
+{% if request.user.is_authenticated %}
+<h4>欢迎 {{request.user}} 进入信息管理系统</h4>
+
+<a href="{% url 'logout' %}">退出登录</a>
+
+{% else %}
+<a href="{% url 'login' %}">登录</a>
+{% endif %}
+
+<hr>

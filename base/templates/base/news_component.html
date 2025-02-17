@@ -1,0 +1,19 @@
+<div>
+    
+    {% for post in posts %}
+        <div>
+            
+            {% if post.host.user == request.user %}
+            <a href="{% url 'update_news' post.id %}">更新</a>
+            <a href="{% url 'delete_news' post.id %}">删除</a>
+            {% endif %}
+            
+            <h3>{{post.host.teachname}}发布
+            </h3>
+            <h5>{{post.id}} -- <a href="{% url 'newspage' post.id %}">{{post.name}}</a></h5>
+            <small>{{post.topic.name}}</small>
+            <hr>
+        </div>
+    {% endfor %}
+    
+</div>

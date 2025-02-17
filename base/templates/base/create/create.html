@@ -1,0 +1,21 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div>
+    <form method="post" action="">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">提交</button>
+    </form>
+</div>
+
+<div>
+    {% if page == update %}
+    <a href="{% url 'stu_pdf' pk %}">点此生成pdf</a>
+    {% else %}
+    
+    {% endif %}
+</div>
+
+  
+{% endblock content %}

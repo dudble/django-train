@@ -1,0 +1,100 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<template id="inputTemplate">
+    <div class="input-group">
+        <label for="stu-name">学生名</label>
+        <input type="text" placeholder="学生名称" name="stu" list="stu-list">
+        <datalist id="stu-list">          
+            {% for stu in stus %}
+            <option value="{{stu.name}}">{{stu.name}}</option>
+            {% endfor %}
+        </datalist>
+        <button type="button" class="remove">删除</button>
+    </div>
+</template>
+
+<div>
+    <form method="POST" action="" id="dom-form">
+        {% csrf_token %}
+        <div>
+            <label for="dom-name">宿舍名</label>
+            <input required type="text" name="name" list="dom-list">
+            <datalist id="dom-list">
+                <select id="dom-name">
+                    {% for dom in doms %}
+                    <option value="{{dom.name}}">{{dom.name}}</option>
+                    {% endfor %}
+                </select>
+            </datalist>
+        </div>
+        
+        <div id="inputContainer"></div>
+        <button onclick="addInputStu()" type="button">+ 添加学生</button>
+
+        <p><button type="submit">提交</button></p>
+    </form>
+</div>
+
+
+{% load static %}
+<script>
+
+    var cnt = 0;
+
+    function addInputStu(){
+        const template = document.getElementById("inputTemplate");
+        const clone = template.content.cloneNode(true);
+
+        cnt += 1;
+
+        const input = clone.querySelector('input');
+        const id = 'stulist-' + cnt ;
+        //console.log(id);
+        input.name = 'stu-' + cnt;
+        input.setAttribute('list', id);
+        clone.querySelector('datalist').setAttribute('id', id);
+
+        clone.querySelector(".remove").addEventListener("click", function(){
+            this.parentElement.remove();
+        });
+
+        document.getElementById("inputContainer").appendChild(clone);
+    }
+
+    addInputStu();
+
+
+    document.getElementById("dom-form").addEventListener("submit", function(event){
+        event.preventDefault();
+        var formData = new FormData(this);
+        fetch("{% url 'mid_dom' %}", {
+            method: "POST",
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success){
+                alert('提交成功');
+                location.reload();
+            }else{
+                alert('提交失败');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+
+</script>
+
+<img src="{% static 'base/pic.jpg' %}"/>
+
+<style>
+
+    .input-group {
+        margin: 10px ;
+    }
+
+</style>
+
+{% endblock %}

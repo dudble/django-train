@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <title>学生信息管理系统</title>
+        <h2>欢迎！</h2>
+        <hr width="2333"/>
+    </head>
+
+    {% extends 'main.html' %}
+
+    {% block content %}
+
+    <style>
+        .home-container {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+        }
+    </style>
+
+    <div class="home-container">
+        <div>
+            <a href="{% url 'create_warning' %}">添加学业预警</a><br>
+            <a href="{% url 'upload_warning' %}">批量发布学业预警</a><br>
+            <a href="{% url 'warn_list' %}">查看学业预警列表</a><hr>
+
+            <a href="{% url 'create_stu' %}">添加学生信息</a><br>
+            <a href="{% url 'upload_stu' %}">批量添加学生信息</a><br>
+            <a href="{% url 'stu_list' %}">查看学生列表</a><hr>
+
+            <a href="{% url 'add_domitory' %}">添加宿舍信息</a><br>
+            <a href="{% url 'dom_list' %}">查看宿舍列表</a><hr>
+
+            <a href="{% url 'create_loan' %}">添加学贷</a><br>
+            <a href="{% url 'upload_loan' %}">批量添加学贷信息</a><br>
+            <a href="{% url 'loan_list' %}">查看学贷列表</a><hr>
+
+            <a href="{% url 'create_leave' %}">请假</a><br>
+            <a href="{% url 'approve' %}">辅导员批假销假</a><hr>
+
+            <a href="{% url 'create_cer' %}">上传获奖证书</a><br>
+            <a href="{% url 'cer_list' %}">获奖证书列表</a>
+
+            
+        </div>
+        <div>
+            <a href="{% url 'create_news' %}">发布新通知</a>
+            {% include 'base/news_component.html' %}
+        </div>
+    </div>
+
+
+
+    {% endblock content %}
+
+</html>

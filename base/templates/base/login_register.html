@@ -1,0 +1,22 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+{% if page == 'login' %}
+<div>
+    <form method="POST" action="">
+
+        {% csrf_token %}
+        <label>账号：</label><br>
+        <input type="text" name="username" /><br>
+
+        <label>密码：</label><br>
+        <input type="password" name="password" />
+
+        <input type="submit" value="登录" />
+    </form>
+</div>
+
+{% endif %}
+
+{% endblock %}

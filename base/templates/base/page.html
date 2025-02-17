@@ -1,0 +1,40 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<div class="page-container">
+    <div>
+        <p>{{page.name}}</p><hr>
+        <p>{{page.description}}</p>
+        {% if page.have_file %}
+        <p><a href="{% url 'upload_file' page.id %}">上传文件</a></p>
+        {% endif %}
+    </div>
+    {% if page.have_file %}
+    <div>
+        <h6>当前共有{{count}}位学生提交文件</h6>
+        <form method="get" action="{% url 'newspage' pk %}">
+            <input type="text" name="stu_q" placeholder="查找学生" />
+        </form>
+        <table>
+            <tr>
+                <th>姓名</th><th>下载链接</th>
+            </tr>
+            {% for file in stu_files %}
+            <tr>
+                <th>{{file.host.name}}</th>
+                <th>
+                    <a href="{{file.stufile.url}}">点此下载</a>
+                </th>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div>
+        <a href="{% url 'download_news_files' pk %}">下载全部文件</a>
+    </div>
+
+    {% endif %}
+</div>
+
+{% endblock %}

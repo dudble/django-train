@@ -1,0 +1,35 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+</style>
+
+<div class="page-container">
+    <div>
+        <a href="{% url 'export_data' 'stu_warning' %}">点此生成全部预警的excel文件</a>
+    </div>
+    <div>
+        <h6>当前共有{{count}}个预警</h6>
+        <form method="get" action="{% url 'warn_list' %}">
+            <input type="text" name="stu_q" placeholder="查找学生" />
+        </form>
+        <table>
+            <tr>
+                <th>姓名</th><th>等级</th>
+            </tr>
+            {% for warn in warns %}
+            <tr>
+                <th><a href="{% url 'update_warning' warn.id %}">{{warn.name}}</a></th>
+                <th>{{warn.level}}</th>
+                <th><a href="{% url 'delete_warning' warn.id %}">点此删除</a></th>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{% endblock %}

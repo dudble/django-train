@@ -1,0 +1,34 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+</style>
+
+<div class="page-container">
+    <div>
+        <a href="{% url 'export_data' 'loan' %}">点此生成全部学贷的excel文件</a>
+    </div>
+    <div>
+        <h6>当前共有{{count}}个学贷</h6>
+        <form method="get" action="{% url 'loan_list' %}">
+            <input type="text" name="loan_q" placeholder="查找学生" />
+        </form>
+        <table>
+            <tr>
+                <th>姓名</th><th>贷款</th>
+            {% for loan in loans %}
+            <tr>
+                <th><a href="{% url 'update_loan' loan.id %}">{{loan.name}}</a></th>
+                <th>{{loan.money}}</th>
+                <th><a href="{% url 'delete_loan' loan.id %}">点此删除</a></th>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{% endblock %}

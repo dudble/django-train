@@ -1,0 +1,40 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div>
+    <form method="POST" action="">
+        {% csrf_token %}
+        <div>
+            <label for="leave_stu">请假学生</label>
+            <input required type="text" name="stu" list="stu-list">
+            <datalist id="stu-list">
+                <select id="leave_stu">
+                    {% for stu in stus %}
+                    <option value="{{stu.name}}">{{stu.name}}</option>
+                    {% endfor %}
+                </select>
+            </datalist>
+        </div>
+        <div>
+            <label>是由</label>
+            {{form.name}}
+        </div>
+        <div>
+            <label for="start">起始时间</label>
+            <input type="date" id="start" name="start" />
+<!--             {{form.start_date}} -->
+        </div>
+        <div>
+            <label for="end">返校时间</label>
+            <input type="date" id="end" name="end" />
+            <!-- {{form.end.data}} -->
+        </div>
+        <div>
+            <p><a href="{{request.META.HTTP_REFERER}}">算了</a></p>
+            <button type="submit" >提交</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
