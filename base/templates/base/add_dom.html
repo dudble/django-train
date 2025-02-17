@@ -73,8 +73,8 @@
             method: "POST",
             body: formData,
         })
-        .then(response => response.json())
-        .then(data => {
+        。then(response => response.json())
+        。then(data => {
             if(data.success){
                 alert('提交成功');
                 location.reload();
@@ -82,16 +82,14 @@
                 alert('提交失败');
             }
         })
-        .catch(error => console.error('Error:', error));
+        。catch(error => console.error('Error:', error));
     });
 
 </script>
 
-<img src="{% static 'base/pic.jpg' %}"/>
-
 <style>
 
-    .input-group {
+    。input-group {
         margin: 10px ;
     }
 
